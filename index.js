@@ -1,12 +1,12 @@
 const express = require("express"),
   app = express(),
   router = require("./routes/index"),
-  bodyParser = require("body-parser");
-const connectDB = require("./config/mongodb.config");
+  bodyParser = require("body-parser"),
+  cors = require("cors");
+const sqlConnection = require("./config/sql.config");
 
-const mongoURI = `mongodb://localhost:27017/crm-database`;
-
-connectDB(mongoURI);
+// Enable CORS
+app.use(cors());
 
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
@@ -21,7 +21,6 @@ app.use((req, res, next) => {
 
 router.init(app);
 
-// router.init(app);
 console.log(`PHYSIO CRM API Service running on :${9005}`);
 
 app.listen(9005);

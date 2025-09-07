@@ -1,32 +1,117 @@
-const { patient_leads } = require("../models/patient_leads");
-const { getJsonResponse } = require("../utils/common");
+const service = require("../services/patientLeads.service");
+const { getJsonResponse } = require("../utils/common")
 
-const addPatientLeads = async (req, res) => {
-  try {
-    const response = await patient_leads.create(req.body);
-    res.status(200).json(getJsonResponse(true, response, null, null));
-  } catch (err) {
-    logger.error(
-      `patientLeads.controller.js - addPatientLeads - ${err.message}`
-    );
-    res.status(500).json(getJsonResponse(false, [], null, err.message));
-  }
-};
+const patientLeadsController = (() => {
+    const addPatientLeads = async (req, res) => {
+        try {
+            const { name, age, phoneNumber, pincode } = req.body
+            if (!name || !age || !phoneNumber || !pincode) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.addPatientLeads(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - addPatientLeads - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
 
-const getPatientLeads = async (req, res) => {
-  try {
-    const { _id } = req.query;
-    const response = await patient_leads.findOne({ _id });
-    res.status(200).json(getJsonResponse(true, response, null, null));  
-  } catch (err) {
-    logger.error(
-      `patientLeads.controller.js - getPatientLeads - ${err.message}`
-    );
-    res.status(500).json(getJsonResponse(false, [], err.message, err.message));
-  }
-};
+    const updatePatientLeads = async (req, res) => {
+        try {
+            const { id } = req.body
+            if (!id) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.updatePatientLeads(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - updatePatientLeads - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
 
-module.exports = {
-  addPatientLeads,
-  getPatientLeads,
-};
+    const getPatientLeads = async (req, res) => {
+        try {
+            const response = await service.getPatientLeads(req.query)
+            return res.status(response.status).json(response.data)
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - getPatientLeads - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
+    const getRegisteredPatients = async (req, res) => {
+        try {
+            const response = await service.getRegisteredPatients(req.query)
+            return res.status(response.status).json(response.data)
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - getRegisteredPatients - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
+    const getLeadsDetailsOptions = async (req, res) => {
+        try {
+            const response = await service.getLeadsDetailsOptions(req.query)
+            return res.status(response.status).json(response.data)
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - getLeadsDetailsOptions - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
+    const getLeadDetailsForFollowUp = async (req, res) => {
+        try {
+            const { id } = req.query
+            if (!id) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.getLeadDetailsForFollowUp(req.query)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - getLeadDetailsForFollowUp - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
+    const addLeadsFollowUp = async (req, res) => {
+        try {
+            const { leadId, followUpComment } = req.body
+            if (!leadId || !followUpComment ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.addLeadsFollowUp(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - addLeadsFollowUp - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
+    return {
+        addPatientLeads,
+        getPatientLeads,
+        getRegisteredPatients,
+        getLeadsDetailsOptions,
+        updatePatientLeads,
+        getLeadDetailsForFollowUp,
+        addLeadsFollowUp
+    }
+})()
+
+module.exports = patientLeadsController
