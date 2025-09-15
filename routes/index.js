@@ -7,5 +7,8 @@
 
     const appointments = require("./appointment.routes");
     app.use("/appointments", appointments);
+
+    const packages = require("./packages.routes");
+    app.use("/packages", packages);
   };
 })(module.exports);
