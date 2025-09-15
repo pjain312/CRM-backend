@@ -18,9 +18,6 @@ const appointmentsService = (() => {
             }
             return { status: 200, data: getJsonResponse(true, res, null, null) }
         }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
     }
 
     const addAppointment = async (reqBody) => {
@@ -33,9 +30,6 @@ const appointmentsService = (() => {
         }
         if (response.queryRes) {
             return { status: 200, data: getJsonResponse(true, [], null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
         }
     }
 
@@ -50,24 +44,18 @@ const appointmentsService = (() => {
         if (response.queryRes) {
             return { status: 200, data: getJsonResponse(true, response.queryRes[0], null, null) }
         }
-        else {
-            return { status: 500, data: getJsonResponse(false, null, "No Records", null) }
-        }
     }
 
-    const updateAppointmentStatus = async (reqBody) => {
-        const { appointmentId, status, appointmentTime } = reqBody;
-        const params = [appointmentId, status, appointmentTime]
-        const response = await worker.updateAppointmentStatus(params)
+    const updateAppointment = async (reqBody) => {
+        const { appointmentId, comment, status, appointmentTime } = reqBody;
+        const params = [appointmentId, comment, status, appointmentTime]
+        const response = await worker.updateAppointment(params)
         if (response.queryErr) {
-            console.log(`appointment.service-js - updateAppointmentStatus - ${response.queryErr}`)
+            console.log(`appointment.service-js - updateAppointment - ${response.queryErr}`)
             return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
         }
         if (response.queryRes) {
             return { status: 200, data: getJsonResponse(true, [], null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
         }
     }
 
@@ -75,7 +63,7 @@ const appointmentsService = (() => {
         getAppointmentDefaultOptions,
         addAppointment,
         getAllAppointments,
-        updateAppointmentStatus
+        updateAppointment
     }
 })();
 

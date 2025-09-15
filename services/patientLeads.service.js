@@ -1,143 +1,121 @@
 
 const worker = require("../worker/patientLeads.worker");
 
-const patientLeadsService = (() => {
-    const { getJsonResponse } = require("../utils/common");
-    const addPatientLeads = async (reqBody) => {
-        const { name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-            leadSource, leadStatus, condition, treatment, packageId, createdBy } = reqBody;
-        const params = [name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-            leadSource, leadStatus, condition, treatment, packageId, createdBy]
-        const response = await worker.addPatientLeads(params)
-        if (response.queryErr) {
-            console.log(`patientLeads.service-js - addPatientLeads - ${response.queryErr}`)
-            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
-        }
-
-        if (response.queryRes) {
-            return { status: 200, data: getJsonResponse(true, [], null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
+const { getJsonResponse } = require("../utils/common");
+const addPatientLeads = async (reqBody) => {
+    const { name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
+        leadSource, leadStatus, condition, treatment, createdBy } = reqBody;
+    const params = [name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
+        leadSource, leadStatus, condition, treatment, createdBy]
+    const response = await worker.addPatientLeads(params)
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - addPatientLeads - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
     }
 
-    const updatePatientLeads = async (reqBody) => {
-        const { id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-            leadSource, leadStatus, condition, treatment, assignedTo, packageId, updatedBy } = reqBody;
-        const params = [id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-            leadSource, leadStatus, condition, treatment, assignedTo, packageId, updatedBy]
-        const response = await worker.updatePatientLeads(params)
-        if (response.queryErr) {
-            console.log(`patientLeads.service-js - updatePatientLeads - ${response.queryErr}`)
-            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
-        }
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, [], null, null) }
+    }
+}
 
-        if (response.queryRes) {
-            return { status: 200, data: getJsonResponse(true, [], null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
+const updatePatientLeads = async (reqBody) => {
+    const { id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
+        leadSource, leadStatus, condition, treatment, assignedTo, updatedBy } = reqBody;
+    const params = [id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
+        leadSource, leadStatus, condition, treatment, assignedTo, updatedBy]
+    const response = await worker.updatePatientLeads(params)
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - updatePatientLeads - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
     }
 
-    const getPatientLeads = async () => {
-        const response = await worker.getPatientLeads()
-        if (response.queryErr) {
-            console.log(`patientLeads.service-js - getPatientLeads - ${response.queryErr}`)
-            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
-        }
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, [], null, null) }
+    }
+}
 
-        if (response.queryRes) {
-            return { status: 200, data: getJsonResponse(true, response.queryRes[0], null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
+const getPatientLeads = async () => {
+    const response = await worker.getPatientLeads()
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - getPatientLeads - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
     }
 
-    const getRegisteredPatients = async () => {
-        const response = await worker.getRegisteredPatients()
-        if (response.queryErr) {
-            console.log(`patientLeads.service-js - getRegisteredPatients - ${response.queryErr}`)
-            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
-        }
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, response.queryRes[0], null, null) }
+    }
+}
 
-        if (response.queryRes) {
-            return { status: 200, data: getJsonResponse(true, response.queryRes[0], null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
+const getRegisteredPatients = async () => {
+    const response = await worker.getRegisteredPatients()
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - getRegisteredPatients - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
     }
 
-    const getLeadsDetailsOptions = async () => {
-        const response = await worker.getLeadsDetailsOptions()
-        if (response.queryErr) {
-            console.log(`patientLeads.service-js - getLeadsDetailsOptions - ${response.queryErr}`)
-            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
-        }
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, response.queryRes[0], null, null) }
+    }
+}
 
-        if (response.queryRes) {
-            const res = {
-                clinicList: response.queryRes[0],
-                genders: response.queryRes[1],
-                leadTypes: response.queryRes[2],
-                leadSource: response.queryRes[3],
-                leadStatus: response.queryRes[4],
-                physioPreference: response.queryRes[5],
-                treatmentType: response.queryRes[6]
-            }
-            return { status: 200, data: getJsonResponse(true, res, null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
+const getLeadsDetailsOptions = async () => {
+    const response = await worker.getLeadsDetailsOptions()
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - getLeadsDetailsOptions - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
     }
 
-    const getLeadDetailsForFollowUp = async (reqQuery) => {
-        const {id} = reqQuery
-        const response = await worker.getLeadDetailsForFollowUp([id])
-        if (response.queryErr) {
-            console.log(`patientLeads.service-js - getLeadDetailsForFollowUp - ${response.queryErr}`)
-            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+    if (response.queryRes) {
+        const res = {
+            clinicList: response.queryRes[0],
+            genders: response.queryRes[1],
+            leadTypes: response.queryRes[2],
+            leadSource: response.queryRes[3],
+            leadStatus: response.queryRes[4],
+            physioPreference: response.queryRes[5],
+            treatmentType: response.queryRes[6]
         }
+        return { status: 200, data: getJsonResponse(true, res, null, null) }
+    }
+}
 
-        if (response.queryRes) {
-            return { status: 200, data: getJsonResponse(true, response.queryRes[0] ? response.queryRes[0][0]: null, null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
+const getLeadDetailsForFollowUp = async (reqQuery) => {
+    const {id} = reqQuery
+    const response = await worker.getLeadDetailsForFollowUp([id])
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - getLeadDetailsForFollowUp - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
     }
 
-    const addLeadsFollowUp = async (reqBody) => {
-        const { leadId, followUpComment, nextFollowUpDate, createdBy } = reqBody;
-        const params = [leadId, followUpComment, nextFollowUpDate, createdBy]
-        const response = await worker.addLeadsFollowUp(params)
-        if (response.queryErr) {
-            console.log(`patientLeads.service-js - addLeadsFollowUp - ${response.queryErr}`)
-            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
-        }
-
-        if (response.queryRes) {
-            return { status: 200, data: getJsonResponse(true, [], null, null) }
-        }
-        else {
-            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
-        }
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, response.queryRes[0] ? response.queryRes[0][0]: null, null, null) }
     }
+}
+
+const addLeadsFollowUp = async (reqBody) => {
+    const { leadId, followUpComment, nextFollowUpDate, createdBy } = reqBody;
+    const params = [leadId, followUpComment, nextFollowUpDate, createdBy]
+    const response = await worker.addLeadsFollowUp(params)
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - addLeadsFollowUp - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+    }
+
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, [], null, null) }
+    }
+}
     
-    return {
-        addPatientLeads,
-        getPatientLeads,
-        getRegisteredPatients,
-        getLeadsDetailsOptions,
-        updatePatientLeads,
-        getLeadDetailsForFollowUp,
-        addLeadsFollowUp
-    }
-})();
+ 
 
 
-module.exports = patientLeadsService
+
+module.exports = {
+    addPatientLeads,
+    getPatientLeads,
+    getRegisteredPatients,
+    getLeadsDetailsOptions,
+    updatePatientLeads,
+    getLeadDetailsForFollowUp,
+    addLeadsFollowUp
+}

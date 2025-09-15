@@ -1,7 +1,6 @@
 const service = require("../services/patientLeads.service");
 const { getJsonResponse } = require("../utils/common")
 
-const patientLeadsController = (() => {
     const addPatientLeads = async (req, res) => {
         try {
             const { name, age, phoneNumber, pincode } = req.body
@@ -103,15 +102,12 @@ const patientLeadsController = (() => {
         }
     }
 
-    return {
-        addPatientLeads,
-        getPatientLeads,
-        getRegisteredPatients,
-        getLeadsDetailsOptions,
-        updatePatientLeads,
-        getLeadDetailsForFollowUp,
-        addLeadsFollowUp
-    }
-})()
-
-module.exports = patientLeadsController
+module.exports = {
+    addPatientLeads,
+    getPatientLeads,
+    getRegisteredPatients,
+    getLeadsDetailsOptions,
+    updatePatientLeads,
+    getLeadDetailsForFollowUp,
+    addLeadsFollowUp
+}
