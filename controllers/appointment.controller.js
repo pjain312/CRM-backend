@@ -42,10 +42,28 @@ const appointmentsController = (() => {
         }
     }
 
+    const updateAppointmentStatus = async (req, res) => {
+        try {
+            const { appointmentId, status } = req.body
+            if (!appointmentId || !status ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.updateAppointmentStatus(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`appointment.controller.js - updateAppointmentStatus - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
     return {
         getAppointmentDefaultOptions,
         addAppointment,
-        getAllAppointments
+        getAllAppointments,
+        updateAppointmentStatus
     }
 })()
 

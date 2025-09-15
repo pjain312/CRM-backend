@@ -55,10 +55,27 @@ const appointmentsService = (() => {
         }
     }
 
+    const updateAppointmentStatus = async (reqBody) => {
+        const { appointmentId, status, appointmentTime } = reqBody;
+        const params = [appointmentId, status, appointmentTime]
+        const response = await worker.updateAppointmentStatus(params)
+        if (response.queryErr) {
+            console.log(`appointment.service-js - updateAppointmentStatus - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, [], null, null) }
+        }
+        else {
+            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+        }
+    }
+
     return {
         getAppointmentDefaultOptions,
         addAppointment,
-        getAllAppointments
+        getAllAppointments,
+        updateAppointmentStatus
     }
 })();
 
