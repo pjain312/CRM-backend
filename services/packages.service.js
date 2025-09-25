@@ -21,12 +21,46 @@ const packageService = (() => {
         }
     }
 
+    const addSessionTypes = async (reqBody) => {
+        const { sessionName, chargePerSession } = reqBody;
+        const params = [sessionName, chargePerSession]
+        const response = await worker.addSessionTypes(params)
+        if (response.queryErr) {
+            console.log(`packages.service-js - addSessionTypes - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes, null, null) }
+        }
+        else {
+            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+        }
+    }
+
     const updatePackage = async (reqBody) => {
         const { packageId, packageName, chargePerSession, totalSession, totalCost } = reqBody;
         const params = [packageId, packageName, chargePerSession, totalSession, totalCost]
         const response = await worker.updatePackage(params)
         if (response.queryErr) {
             console.log(`packages.service-js - updatePackage - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes, null, null) }
+        }
+        else {
+            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+        }
+    }
+
+    const updateSessionType = async (reqBody) => {
+        const { sessionId, sessionName, chargePerSession } = reqBody;
+        const params = [sessionId, sessionName, chargePerSession]
+        const response = await worker.updateSessionType(params)
+        if (response.queryErr) {
+            console.log(`packages.service-js - updateSessionType - ${response.queryErr}`)
             return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
         }
 
@@ -69,11 +103,46 @@ const packageService = (() => {
         }
     }
 
+    const getSessionTypes = async () => {
+        const response = await worker.getSessionTypes()
+        if (response.queryErr) {
+            console.log(`packages.service-js - getSessionTypes - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes[0], null, null) }
+        }
+        else {
+            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+        }
+    }
+
+    const deleteSessionType = async (reqBody) => {
+        const { sessionId } = reqBody;
+        const response = await worker.deleteSessionType([sessionId])
+        if (response.queryErr) {
+            console.log(`packages.service-js - deleteSessionType - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes, null, null) }
+        }
+        else {
+            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+        }
+    }
+
     return {
         addPackages,
+        addSessionTypes,
         updatePackage,
+        updateSessionType,
         deletePackage,
-        getPackages
+        getPackages,
+        getSessionTypes,
+        deleteSessionType
     }
 })();
 

@@ -20,6 +20,23 @@ const packagesController = (() => {
         }
     }
 
+    const addSessionTypes = async (req, res) => {
+        try {
+            const { sessionName, chargePerSession } = req.body
+            if (!sessionName || !chargePerSession ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.addSessionTypes(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`packages.controller.js - addSessionTypes - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
     const updatePackage = async (req, res) => {
         try {
             const { packageId } = req.body
@@ -33,6 +50,23 @@ const packagesController = (() => {
         }
         catch (err) {
             console.log(`packages.controller.js - updatePackage - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
+    const updateSessionType = async (req, res) => {
+        try {
+            const { sessionId } = req.body
+            if (!sessionId ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.updateSessionType(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`packages.controller.js - updateSessionType - ${err.message}`)
             return res.status(500).json(getJsonResponse(false, [], null, err.message))
         }
     }
@@ -54,6 +88,23 @@ const packagesController = (() => {
         }
     }
 
+    const deleteSessionType = async (req, res) => {
+        try {
+            const { sessionId } = req.body
+            if (!sessionId ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.deleteSessionType(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`packages.controller.js - deleteSessionType - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
     const getPackages = async (req, res) => {
         try {
                 const response = await service.getPackages()
@@ -65,11 +116,26 @@ const packagesController = (() => {
         }
     }
 
+    const getSessionTypes = async (req, res) => {
+        try {
+                const response = await service.getSessionTypes()
+                return res.status(response.status).json(response.data)
+        }
+        catch (err) {
+            console.log(`packages.controller.js - getSessionTypes - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
     return {
         addPackages,
+        addSessionTypes,
         updatePackage,
+        updateSessionType,
         deletePackage,
-        getPackages
+        getPackages,
+        getSessionTypes,
+        deleteSessionType
     }
 })()
 
