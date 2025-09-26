@@ -13,15 +13,16 @@ const appointmentsWorker = (() => {
         return commonWorker("CALL GetAllAppointments(?,?)", params, 'appointment.worker.js - getAllAppointments -')
     }
 
-    const updateAppointmentStatus = (params) => {
-        return commonWorker("CALL UpdateAppointmentStatus(?,?,?)", params, 'appointment.worker.js - updateAppointmentStatus -')
+    const updateAppointment = (params) => {
+        return commonWorker("CALL UpdateAppointment(?,?,?,?)", params, 'appointment.worker.js - updateAppointment -')
     }
+
 
     return { 
         getAppointmentDefaultOptions,
         addAppointment,
         getAllAppointments,
-        updateAppointmentStatus
+        updateAppointment
     }
 })();
 
