@@ -74,9 +74,60 @@ const sessionCharges = async (req, res) => {
     }
 }
 
+const checkoutPatient = async (req, res) => {
+    try {
+        const { sessionId } = req.body
+        if (!sessionId) {
+            console.log(`session.controller.js - checkoutPatient - ${sessionId} is required`)
+            return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+        }
+        else {
+            const response = await service.checkoutPatient(req.body)
+            return res.status(response.status).json(response.data)
+        }
+    }
+    catch (err) {
+        console.log(`session.controller.js - checkoutPatient - ${err.message}`)
+        return res.status(500).json(getJsonResponse(false, [], null, err.message))
+    }
+}
+
+const getPatientDetailsForCheckout = async (req, res) => {
+    try {
+        const { sessionId } = req.query
+        if (!sessionId) {
+            console.log(`session.controller.js - getPatientDetailsForCheckout - ${sessionId} is required`)
+            return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+        }
+        else {
+            const response = await service.getPatientDetailsForCheckout(req.query)
+            return res.status(response.status).json(response.data)
+        }
+    }
+    catch (err) {
+        console.log(`session.controller.js - getPatientDetailsForCheckout - ${err.message}`)
+        return res.status(500).json(getJsonResponse(false, [], null, err.message))
+    }
+}
+
+const getAllPackagesAndSessionTypes = async (req, res) => {
+    try {
+        const response = await service.getAllPackagesAndSessionTypes()
+        return res.status(response.status).json(response.data)
+    }
+    catch (err) {
+        console.log(`session.controller.js - getAllPackagesAndSessionTypes - ${err.message}`)
+        return res.status(500).json(getJsonResponse(false, [], null, err.message))
+    }
+}
+
+
 module.exports = {
     checkInPatient,
     startSession,
     endSession,
-    sessionCharges
+    sessionCharges,
+    checkoutPatient,
+    getPatientDetailsForCheckout,
+    getAllPackagesAndSessionTypes
 }

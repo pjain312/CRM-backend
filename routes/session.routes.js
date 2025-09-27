@@ -9,7 +9,9 @@ const sessionRoutes = (function () {
     router.route("/startSession").put(sessionController.startSession);
     router.route("/endSession").put(sessionController.endSession);
     router.route("/sessionCharges").put(sessionController.sessionCharges);
-
+    router.route("/checkoutPatient").put(sessionController.checkoutPatient);
+    router.route("/getPatientDetailsForCheckout").get(sessionController.getPatientDetailsForCheckout);
+    router.route("/getAllPackagesAndSessionTypes").get(sessionController.getAllPackagesAndSessionTypes);
 
     return router;
   })();

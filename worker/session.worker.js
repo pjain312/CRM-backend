@@ -16,9 +16,24 @@ const sessionCharges = (params) => {
     return commonWorker("CALL SessionCharges(?,?,?)", params, 'session.worker.js - sessionCharges -')
 }
 
+const getPatientDetailsForCheckout = (params) => {
+    return commonWorker("CALL GetPatientDetailsForCheckout(?)", params, 'session.worker.js - getPatientDetailsForCheckout -')
+}
+
+const getAllPackagesAndSessionTypes = (params) => {
+    return commonWorker("CALL GetAllPackagesAndSessionTypes()", params, 'session.worker.js - getAllPackagesAndSessionTypes -')
+}
+
+const checkoutPatient = (params) => {
+    return commonWorker("CALL CheckoutPatient(?,?,?,?)", params, 'session.worker.js - checkoutPatient -')
+}
+
 module.exports = {
     checkInPatient,
     startSession,
     endSession,
-    sessionCharges
+    sessionCharges,
+    getPatientDetailsForCheckout,
+    getAllPackagesAndSessionTypes,
+    checkoutPatient
 }
