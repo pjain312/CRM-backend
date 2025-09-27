@@ -1,3 +1,5 @@
+const { validateJwt } = require("../middlewares/validateJwt");
+
 const sessionRoutes = (function () {
     "use strict";
   
@@ -5,13 +7,13 @@ const sessionRoutes = (function () {
       router = express.Router(),
       sessionController = require("../controllers/session.controller");
   
-    router.route("/checkInPatient").post(sessionController.checkInPatient);
-    router.route("/startSession").put(sessionController.startSession);
-    router.route("/endSession").put(sessionController.endSession);
-    router.route("/sessionCharges").put(sessionController.sessionCharges);
-    router.route("/checkoutPatient").put(sessionController.checkoutPatient);
-    router.route("/getPatientDetailsForCheckout").get(sessionController.getPatientDetailsForCheckout);
-    router.route("/getAllPackagesAndSessionTypes").get(sessionController.getAllPackagesAndSessionTypes);
+    router.route("/checkInPatient").post(validateJwt, sessionController.checkInPatient);
+    router.route("/startSession").put(validateJwt, sessionController.startSession);
+    router.route("/endSession").put(validateJwt,sessionController.endSession);
+    router.route("/sessionCharges").put(validateJwt,sessionController.sessionCharges);
+    router.route("/checkoutPatient").put(validateJwt,sessionController.checkoutPatient);
+    router.route("/getPatientDetailsForCheckout").get(validateJwt,sessionController.getPatientDetailsForCheckout);
+    router.route("/getAllPackagesAndSessionTypes").get(validateJwt,sessionController.getAllPackagesAndSessionTypes);
 
     return router;
   })();

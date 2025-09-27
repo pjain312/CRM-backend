@@ -13,5 +13,11 @@
 
     const sessions = require("./session.routes");
     app.use("/sessions", sessions);
+    
+    const authRoutes = require("./auth.routes");
+    app.use("/auth", authRoutes);
+
+    const userRoutes = require("./user.routes");
+    app.use("/user", userRoutes);
   };
 })(module.exports);
