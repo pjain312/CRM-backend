@@ -14,7 +14,7 @@ const appointmentsService = (() => {
         if (response.queryRes) {
             const res = {
                 appointmentTypes: response.queryRes[0],
-                apointmentStatusList: response.queryRes[1]
+                appointmentStatusList: response.queryRes[1]
             }
             return { status: 200, data: getJsonResponse(true, res, null, null) }
         }
@@ -47,8 +47,8 @@ const appointmentsService = (() => {
     }
 
     const updateAppointment = async (reqBody) => {
-        const { appointmentId, comment, status, appointmentTime } = reqBody;
-        const params = [appointmentId, comment, status, appointmentTime]
+        const { appointmentId, comments, status, appointmentTime } = reqBody;
+        const params = [appointmentId, comments, status, appointmentTime]
         const response = await worker.updateAppointment(params)
         if (response.queryErr) {
             console.log(`appointment.service-js - updateAppointment - ${response.queryErr}`)

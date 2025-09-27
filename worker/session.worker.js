@@ -5,11 +5,11 @@ const checkInPatient = (params) => {
 }
 
 const startSession = (params) => {
-    return commonWorker("CALL StartSession(?,?)", params, 'session.worker.js - startSession -')
+    return commonWorker("CALL StartSession(?)", params, 'session.worker.js - startSession -')
 }
 
 const endSession = (params) => {
-    return commonWorker("CALL EndSession(?,?)", params, 'session.worker.js - endSession -')
+    return commonWorker("CALL EndSession(?)", params, 'session.worker.js - endSession -')
 }
 
 const sessionCharges = (params) => {

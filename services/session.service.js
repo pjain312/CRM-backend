@@ -2,8 +2,8 @@ const worker = require("../worker/session.worker");
 const { getJsonResponse } = require("../utils/common");
 
 const checkInPatient = async (reqBody) => {
-    const { patientId, automationId } = reqBody;
-    const params = [patientId, automationId]
+    const { patientId, appointmentId } = reqBody;
+    const params = [patientId, appointmentId]
     const response = await worker.checkInPatient(params)
     if (response.queryErr) {
         console.log(`session.service-js - checkInPatient - ${response.queryErr}`)

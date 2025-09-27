@@ -4,9 +4,9 @@ const { getJsonResponse } = require("../utils/common");
 
 const checkInPatient = async (req, res) => {
     try {
-        const { patientId, automationId } = req.body
-        if (!patientId || !automationId ) {
-            console.log(`session.controller.js - checkInPatient - ${patientId} and ${automationId} are required`)
+        const { patientId, appointmentId } = req.body
+        if (!patientId || !appointmentId ) {
+            console.log(`session.controller.js - checkInPatient - ${patientId} and ${appointmentId} are required`)
             return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
         }
         else {
@@ -22,9 +22,9 @@ const checkInPatient = async (req, res) => {
 
 const startSession = async (req, res) => {
     try {
-        const { patientId, automationId } = req.body
-        if (!patientId || !automationId ) {
-            console.log(`session.controller.js - startSession - ${patientId} and ${automationId} are required`)
+        const { sessionId } = req.body
+        if (!sessionId ) {
+            console.log(`session.controller.js - startSession - ${sessionId} is required`)
             return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
         }
         else {
@@ -40,9 +40,9 @@ const startSession = async (req, res) => {
 
 const endSession = async (req, res) => {
     try {
-        const { patientId, automationId } = req.body
-        if (!patientId || !automationId ) {
-            console.log(`session.controller.js - endSession - ${patientId} and ${automationId} are required`)
+        const { sessionId} = req.body
+        if (!sessionId ) {
+            console.log(`session.controller.js - endSession - ${sessionId} is required`)
             return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
         }
         else {

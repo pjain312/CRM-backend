@@ -4,9 +4,9 @@ const worker = require("../worker/patientLeads.worker");
 const { getJsonResponse } = require("../utils/common");
 const addPatientLeads = async (reqBody) => {
     const { name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-        leadSource, leadStatus, condition, treatment, createdBy } = reqBody;
+        leadSource, leadStatus, condition, treatment, packageId, createdBy } = reqBody;
     const params = [name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-        leadSource, leadStatus, condition, treatment, createdBy]
+        leadSource, leadStatus, condition, treatment, packageId, createdBy]
     const response = await worker.addPatientLeads(params)
     if (response.queryErr) {
         console.log(`patientLeads.service-js - addPatientLeads - ${response.queryErr}`)
@@ -20,9 +20,9 @@ const addPatientLeads = async (reqBody) => {
 
 const updatePatientLeads = async (reqBody) => {
     const { id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-        leadSource, leadStatus, condition, treatment, assignedTo, updatedBy } = reqBody;
+        leadSource, leadStatus, condition, treatment, assignedTo, packageId, updatedBy } = reqBody;
     const params = [id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-        leadSource, leadStatus, condition, treatment, assignedTo, updatedBy]
+        leadSource, leadStatus, condition, treatment, assignedTo, packageId, updatedBy]
     const response = await worker.updatePatientLeads(params)
     if (response.queryErr) {
         console.log(`patientLeads.service-js - updatePatientLeads - ${response.queryErr}`)

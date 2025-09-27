@@ -16,8 +16,8 @@ const getAppointmentDefaultOptions = async (req, res) => {
 
 const addAppointment = async (req, res) => {
     try {
-        const { patientId, appointmentDate, appointmentTime, appointmentType, status } = req.body
-        if (!patientId || !appointmentDate || !appointmentTime || !appointmentType || !status ) {
+        const { patientId, appointmentDate, appointmentType, status } = req.body
+        if (!patientId || !appointmentDate || !appointmentType || !status ) {
             return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
         }
         else {
@@ -44,9 +44,9 @@ const getAllAppointments = async (req, res) => {
 
 const updateAppointment = async (req, res) => {
     try {
-        const { appointmentId, comment } = req.body
-        if (!appointmentId || !comment ) {
-            console.log(`appointment.controller.js - updateAppointment - ${appointmentId} and ${comment} are required`);
+        const { appointmentId, comments } = req.body
+        if (!appointmentId || !comments ) {
+            console.log(`appointment.controller.js - updateAppointment - ${appointmentId} and ${comments} are required`);
             return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
         }
         else {

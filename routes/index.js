@@ -10,5 +10,8 @@
 
     const packages = require("./packages.routes");
     app.use("/packages", packages);
+
+    const sessions = require("./session.routes");
+    app.use("/sessions", sessions);
   };
 })(module.exports);
