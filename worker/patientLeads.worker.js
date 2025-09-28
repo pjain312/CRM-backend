@@ -29,6 +29,10 @@ const patientLeadsWorker = (() => {
         return commonWorker("CALL AddLeadsFollowUp(?,?,?,?)", params, 'patientLeads.worker.js - addLeadsFollowUp -')
     }
 
+    const closePatient = (params) => {
+        return commonWorker("CALL ClosePatient(?,?)", params, 'patientLeads.worker.js - closePatient -')
+    }
+
     return { 
         addPatientLeads, 
         getPatientLeads,
@@ -36,7 +40,8 @@ const patientLeadsWorker = (() => {
         getLeadsDetailsOptions,
         updatePatientLeads,
         getLeadDetailsForFollowUp,
-        addLeadsFollowUp
+        addLeadsFollowUp,
+        closePatient
     }
 })();
 

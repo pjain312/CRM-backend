@@ -106,9 +106,19 @@ const addLeadsFollowUp = async (reqBody) => {
     }
 }
     
- 
+const closePatient = async (reqBody) => {
+    const { patientId, closeReason } = reqBody;
+    const params = [patientId, closeReason]
+    const response = await worker.closePatient(params)
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - closePatient - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+    }
 
-
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, [], null, null) }
+    }
+}
 
 module.exports = {
     addPatientLeads,
@@ -117,5 +127,6 @@ module.exports = {
     getLeadsDetailsOptions,
     updatePatientLeads,
     getLeadDetailsForFollowUp,
-    addLeadsFollowUp
+    addLeadsFollowUp,
+    closePatient
 }

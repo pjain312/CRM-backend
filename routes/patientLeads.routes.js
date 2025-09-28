@@ -12,6 +12,7 @@ const patientLeadsRoutes = (function () {
   router.route("/getRegisteredPatients").get(patientLeadsController.getRegisteredPatients);
   router.route("/getLeadDetailsForFollowUp").get(patientLeadsController.getLeadDetailsForFollowUp);
   router.route("/addLeadsFollowUp").post(patientLeadsController.addLeadsFollowUp);
+  router.route("/closePatient").post(patientLeadsController.closePatient);
 
   return router;
 })();
