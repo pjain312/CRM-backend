@@ -58,13 +58,30 @@ const appointmentsService = (() => {
         if (response.queryRes) {
             return { status: 200, data: getJsonResponse(true, [], null, null) }
         }
+
+
     }
+
+
+
+    const getPendingCounts = async () => {
+        const response = await worker.getPendingCounts()
+        if (response.queryErr) {
+            console.log(`appointment.service-js - getPendingCounts - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes[0].length> 0 ? response.queryRes[0][0] : {}, null, null) }
+        }
+    }
+
 
     return {
         getAppointmentDefaultOptions,
         addAppointment,
         getAllAppointments,
-        updateAppointment
+        updateAppointment,
+        getPendingCounts
     }
 })();
 

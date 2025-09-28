@@ -9,6 +9,7 @@ const appointmentRoutes = (function () {
     router.route("/addAppointment").post(appointmentsController.addAppointment);
     router.route("/getAllAppointments").get(appointmentsController.getAllAppointments);
     router.route("/updateAppointment").post(appointmentsController.updateAppointment);
+    router.route("/getPendingCounts").get(appointmentsController.getPendingCounts);
   
     return router;
   })();
