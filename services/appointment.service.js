@@ -13,18 +13,19 @@ const appointmentsService = (() => {
 
         if (response.queryRes) {
             const res = {
-                appointmentTypes: response.queryRes[0],
-                appointmentStatusList: response.queryRes[1]
+                appointmentTypes: response.queryRes[0]? response.queryRes[0] : [],
+                appointmentStatusList: response.queryRes[1]? response.queryRes[1] : [],
+                physioList: response.queryRes[2]? response.queryRes[2] : []
             }
             return { status: 200, data: getJsonResponse(true, res, null, null) }
         }
     }
 
     const addAppointment = async (reqBody) => {
-        const { patientId, appointmentDate, appointmentTime, status, appointmentType, comments, createdBy } = reqBody;
-        const params = [patientId, appointmentDate, appointmentTime, status, appointmentType, comments, createdBy ]
+        const { patientId, appointmentDate, appointmentTime, status, appointmentType, comments, physio, createdBy } = reqBody;
+        const params = [patientId, appointmentDate, appointmentTime, status, appointmentType, comments, physio, createdBy ]
         const response = await worker.addAppointment(params)
-        if (response.queryErr) {
+        if (response.queryErr) {    
             console.log(`appointment.service-js - addAppointment - ${response.queryErr}`)
             return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
         }

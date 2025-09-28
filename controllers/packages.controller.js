@@ -5,8 +5,8 @@ const packagesController = (() => {
 
     const addPackages = async (req, res) => {
         try {
-            const { packageName, chargePerSession, totalSession, totalCost } = req.body
-            if (!packageName || !chargePerSession || !totalSession || !totalCost ) {
+            const { packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost } = req.body
+            if (!packageName || !chargePerSession || !chargePerSessionForPackage || !totalSession || !totalCost ) {
                 return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
             }
             else {
@@ -127,6 +127,40 @@ const packagesController = (() => {
         }
     }
 
+    const getPackageInvoiceData = async (req, res) => {
+        try {
+            const { patientId, appointmentId } = req.query
+            if (!patientId || !appointmentId ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.getPackageInvoiceData(req.query)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`packages.controller.js - getPackageInvoiceData - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
+    const getDailyInvoiceData = async (req, res) => {
+        try {
+            const { patientId, appointmentId } = req.query
+            if (!patientId || !appointmentId ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.getDailyInvoiceData(req.query)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`packages.controller.js - getDailyInvoiceData - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
     return {
         addPackages,
         addSessionTypes,
@@ -135,7 +169,9 @@ const packagesController = (() => {
         deletePackage,
         getPackages,
         getSessionTypes,
-        deleteSessionType
+        deleteSessionType,
+        getPackageInvoiceData,
+        getDailyInvoiceData
     }
 })()
 

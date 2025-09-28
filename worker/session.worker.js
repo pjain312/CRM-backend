@@ -25,7 +25,7 @@ const getAllPackagesAndSessionTypes = (params) => {
 }
 
 const checkoutPatient = (params) => {
-    return commonWorker("CALL CheckoutPatient(?,?,?,?)", params, 'session.worker.js - checkoutPatient -')
+    return commonWorker("CALL CheckoutPatient(?,?,?,?,?)", params, 'session.worker.js - checkoutPatient -')
 }
 
 module.exports = {

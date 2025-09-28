@@ -59,8 +59,8 @@ const sessionCharges = async (reqBody) => {
 }
 
 const checkoutPatient = async (reqBody) => {
-    const { sessionId, packageId, sessionCharges, paymentMode } = reqBody;
-    const params = [sessionId, packageId, sessionCharges, paymentMode]
+    const { sessionId, packageId, sessionCharges, paymentMode, selectedSessionTypes } = reqBody;
+    const params = [sessionId, packageId, sessionCharges, paymentMode, selectedSessionTypes]
     const response = await worker.checkoutPatient(params)
     if (response.queryErr) {
         console.log(`session.service-js - checkoutPatient - ${response.queryErr}`)

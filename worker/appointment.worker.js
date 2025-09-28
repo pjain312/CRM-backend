@@ -6,7 +6,7 @@ const appointmentsWorker = (() => {
     }
 
     const addAppointment = (params) => {
-        return commonWorker("CALL AddAppointment(?,?,?,?,?,?,?)", params, 'appointment.worker.js - addAppointment -')
+        return commonWorker("CALL AddAppointment(?,?,?,?,?,?,?,?)", params, 'appointment.worker.js - addAppointment -')
     }
 
     const getAllAppointments = (params) => {

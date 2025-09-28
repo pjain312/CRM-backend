@@ -5,8 +5,8 @@ const packageService = (() => {
     const { getJsonResponse } = require("../utils/common");
 
     const addPackages = async (reqBody) => {
-        const { packageName, chargePerSession, totalSession, totalCost } = reqBody;
-        const params = [packageName, chargePerSession, totalSession, totalCost]
+        const { packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost } = reqBody;
+        const params = [packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost]
         const response = await worker.addPackages(params)
         if (response.queryErr) {
             console.log(`packages.service-js - addPackages - ${response.queryErr}`)
@@ -39,8 +39,8 @@ const packageService = (() => {
     }
 
     const updatePackage = async (reqBody) => {
-        const { packageId, packageName, chargePerSession, totalSession, totalCost } = reqBody;
-        const params = [packageId, packageName, chargePerSession, totalSession, totalCost]
+        const { packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost } = reqBody;
+        const params = [packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost]
         const response = await worker.updatePackage(params)
         if (response.queryErr) {
             console.log(`packages.service-js - updatePackage - ${response.queryErr}`)
@@ -134,6 +134,40 @@ const packageService = (() => {
         }
     }
 
+    const getPackageInvoiceData = async (reqQuery) => {
+         const { patientId, appointmentId } = reqQuery;
+        const response = await worker.getPackageInvoiceData([patientId, appointmentId])
+        if (response.queryErr) {
+            console.log(`packages.service-js - getPackageInvoiceData - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes[0] && response.queryRes[0][0] ? response.queryRes[0][0] : {}, null, null) }
+        }
+        else {
+            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+        }
+    }
+
+    const getDailyInvoiceData = async (reqQuery) => {
+        const { patientId, appointmentId } = reqQuery;
+       const response = await worker.getDailyInvoiceData([patientId, appointmentId])
+       if (response.queryErr) {
+           console.log(`packages.service-js - getPackageInvoiceData - ${response.queryErr}`)
+           return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+       }
+       if (response.queryRes) {
+        const res = {
+            details: response.queryRes[0] && response.queryRes[0][0] ? response.queryRes[0][0] : {},
+            services: response.queryRes[1] ? response.queryRes[1] : [],
+        }
+           return { status: 200, data: getJsonResponse(true, res, null, null) }
+       }
+       else {
+           return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+       }
+   }
+
     return {
         addPackages,
         addSessionTypes,
@@ -142,7 +176,9 @@ const packageService = (() => {
         deletePackage,
         getPackages,
         getSessionTypes,
-        deleteSessionType
+        deleteSessionType,
+        getPackageInvoiceData,
+        getDailyInvoiceData
     }
 })();
 

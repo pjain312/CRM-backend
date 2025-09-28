@@ -13,6 +13,8 @@ const patientLeadsRoutes = (function () {
     router.route("/deleteSessionType").delete(controller.deleteSessionType);
     router.route("/getPackages").get(controller.getPackages);
     router.route("/getSessionTypes").get(controller.getSessionTypes);
+    router.route("/getPackageInvoiceData").get(controller.getPackageInvoiceData);
+    router.route("/getDailyInvoiceData").get(controller.getDailyInvoiceData);
   
     return router;
   })();

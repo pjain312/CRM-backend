@@ -2,7 +2,7 @@ const { commonWorker } = require("../utils/common")
 
 const packageWorker = (() => {
     const addPackages = (params) => {
-        return commonWorker("CALL AddPackage(?,?,?,?)", params, 'packages.worker.js - addPackages -')
+        return commonWorker("CALL AddPackage(?,?,?,?,?)", params, 'packages.worker.js - addPackages -')
     }
 
     const addSessionTypes = (params) => {
@@ -10,7 +10,7 @@ const packageWorker = (() => {
     }
 
     const updatePackage = (params) => {
-        return commonWorker("CALL UpdatePackage(?,?,?,?,?)", params, 'packages.worker.js - updatePackage -')
+        return commonWorker("CALL UpdatePackage(?,?,?,?,?,?)", params, 'packages.worker.js - updatePackage -')
     }
 
     const updateSessionType = (params) => {
@@ -33,6 +33,14 @@ const packageWorker = (() => {
         return commonWorker("CALL GetSessionTypes()", params, 'packages.worker.js - getSessionTypes -')
     }
 
+    const getPackageInvoiceData = (params) => {
+        return commonWorker("CALL GetPackageInvoiceData(?,?)", params, 'packages.worker.js - getPackageInvoiceData -')
+    }
+
+    const getDailyInvoiceData = (params) => {
+        return commonWorker("CALL GetDailyInvoiceData(?,?)", params, 'packages.worker.js - getDailyInvoiceData -')
+    }
+
     return { 
         addPackages,
         addSessionTypes,
@@ -41,7 +49,9 @@ const packageWorker = (() => {
         deletePackage,
         deleteSessionType,
         getPackages,
-        getSessionTypes
+        getSessionTypes,
+        getPackageInvoiceData,
+        getDailyInvoiceData
     }
 })();
 
