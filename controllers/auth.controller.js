@@ -4,6 +4,7 @@ const { getJsonResponse, commonWorker } = require("../utils/common")
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const passport = require("passport");
+const authWorker = require("../worker/auth.worker");
 
 
 const registerUser = async (req, res) => {
@@ -50,7 +51,15 @@ const loginUser = async (req, res, next) => {
                 console.log(`auth.controller.js - loginUser - accessToken or refreshToken is null`)
                 return res.status(500).json(getJsonResponse(false, [], "internal server error", null))
             }
-            const tokens = { accessToken, refreshToken, user: { Id: user.Id, Name: user.Name, Email: user.Email } }
+
+            const userDetailsResponse = await authWorker.getUserDetails([user.Id]);
+            let userDetails = null;
+            
+            if (userDetailsResponse.queryRes && userDetailsResponse.queryRes.length > 0 && userDetailsResponse.queryRes[0]) {
+                userDetails = userDetailsResponse.queryRes[0][0];
+            }
+
+            const tokens = { accessToken, refreshToken, user: userDetails ? userDetails : { Id: user.Id, Name: user.Name, Email: user.Email }  }
             res.json(getJsonResponse(true, tokens, "login successful", null));
         } catch (error) {
             console.log(`auth.controller.js - loginUser - ${error.message}`)

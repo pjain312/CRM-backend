@@ -21,8 +21,9 @@ const appointmentsService = (() => {
         }
     }
 
-    const addAppointment = async (reqBody) => {
-        const { patientId, appointmentDate, appointmentTime, status, appointmentType, comments, physio, createdBy } = reqBody;
+    const addAppointment = async (req) => {
+        const { patientId, appointmentDate, appointmentTime, status, appointmentType, comments, physio } = req.body;
+        const createdBy = req.user.id;
         const params = [patientId, appointmentDate, appointmentTime, status, appointmentType, comments, physio, createdBy ]
         const response = await worker.addAppointment(params)
         if (response.queryErr) {    
@@ -34,9 +35,10 @@ const appointmentsService = (() => {
         }
     }
 
-    const getAllAppointments = async (reqQuery) => {
-        const {patientId, appointmentDate} = reqQuery
-        const response = await worker.getAllAppointments([patientId, appointmentDate])
+    const getAllAppointments = async (req) => {
+        const {patientId, appointmentDate} = req.query
+        const userId = req.user.id
+        const response = await worker.getAllAppointments([patientId, appointmentDate, userId])
         if (response.queryErr) {
             console.log(`appointment.service-js - getAllAppointments - ${response.queryErr}`)
             return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
@@ -47,9 +49,10 @@ const appointmentsService = (() => {
         }
     }
 
-    const updateAppointment = async (reqBody) => {
-        const { appointmentId, comments, status, appointmentTime } = reqBody;
-        const params = [appointmentId, comments, status, appointmentTime]
+    const updateAppointment = async (req) => {
+        const { appointmentId, comments, status, appointmentTime } = req.body;
+        const updatedBy = req.user.id;
+        const params = [appointmentId, comments, status, appointmentTime, updatedBy]
         const response = await worker.updateAppointment(params)
         if (response.queryErr) {
             console.log(`appointment.service-js - updateAppointment - ${response.queryErr}`)
@@ -64,8 +67,9 @@ const appointmentsService = (() => {
 
 
 
-    const getPendingCounts = async () => {
-        const response = await worker.getPendingCounts()
+    const getPendingCounts = async (req) => {
+        const userId = req.user.id
+        const response = await worker.getPendingCounts([userId])
         if (response.queryErr) {
             console.log(`appointment.service-js - getPendingCounts - ${response.queryErr}`)
             return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }

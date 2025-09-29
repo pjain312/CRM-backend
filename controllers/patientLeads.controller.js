@@ -8,7 +8,7 @@ const { getJsonResponse } = require("../utils/common")
                 return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
             }
             else {
-                const response = await service.addPatientLeads(req.body)
+                const response = await service.addPatientLeads(req)
                 return res.status(response.status).json(response.data)
             }
         }
@@ -25,7 +25,7 @@ const { getJsonResponse } = require("../utils/common")
                 return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
             }
             else {
-                const response = await service.updatePatientLeads(req.body)
+                const response = await service.updatePatientLeads(req)
                 return res.status(response.status).json(response.data)
             }
         }
@@ -48,7 +48,7 @@ const { getJsonResponse } = require("../utils/common")
 
     const getRegisteredPatients = async (req, res) => {
         try {
-            const response = await service.getRegisteredPatients(req.query)
+            const response = await service.getRegisteredPatients(req)
             return res.status(response.status).json(response.data)
         }
         catch (err) {
@@ -92,7 +92,7 @@ const { getJsonResponse } = require("../utils/common")
                 return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
             }
             else {
-                const response = await service.addLeadsFollowUp(req.body)
+                const response = await service.addLeadsFollowUp(req)
                 return res.status(response.status).json(response.data)
             }
         }
