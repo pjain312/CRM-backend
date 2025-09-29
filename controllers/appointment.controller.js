@@ -60,9 +60,21 @@ const updateAppointment = async (req, res) => {
     }
 }
 
+const getPendingCounts = async (req, res) => {
+    try {
+        const response = await service.getPendingCounts()
+        return res.status(response.status).json(response.data)
+    }
+    catch (err) {
+        console.log(`appointment.controller.js - getPendingCounts - ${err.message}`)
+        return res.status(500).json(getJsonResponse(false, [], null, err.message))
+    }
+}
+
 module.exports = {
     getAppointmentDefaultOptions,
     addAppointment,
     getAllAppointments,
-    updateAppointment
+    updateAppointment,
+    getPendingCounts
 }
