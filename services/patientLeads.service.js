@@ -2,9 +2,10 @@
 const worker = require("../worker/patientLeads.worker");
 
 const { getJsonResponse } = require("../utils/common");
-const addPatientLeads = async (reqBody) => {
+const addPatientLeads = async (req) => {
     const { name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-        leadSource, leadStatus, condition, treatment, packageId, createdBy } = reqBody;
+        leadSource, leadStatus, condition, treatment, packageId } = req.body;
+        const createdBy = req.user.id;
     const params = [name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
         leadSource, leadStatus, condition, treatment, packageId, createdBy]
     const response = await worker.addPatientLeads(params)
@@ -18,9 +19,10 @@ const addPatientLeads = async (reqBody) => {
     }
 }
 
-const updatePatientLeads = async (reqBody) => {
+const updatePatientLeads = async (req) => {
     const { id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
-        leadSource, leadStatus, condition, treatment, assignedTo, packageId, updatedBy } = reqBody;
+        leadSource, leadStatus, condition, treatment, assignedTo, packageId } = req.body;
+        const updatedBy = req.user.id;
     const params = [id, name, age, gender, phoneNumber, email, address, city, state, country, pincode, leadType, physioPreference,
         leadSource, leadStatus, condition, treatment, assignedTo, packageId, updatedBy]
     const response = await worker.updatePatientLeads(params)
@@ -46,8 +48,9 @@ const getPatientLeads = async () => {
     }
 }
 
-const getRegisteredPatients = async () => {
-    const response = await worker.getRegisteredPatients()
+const getRegisteredPatients = async (req) => {
+    const userId = req.user.id;
+    const response = await worker.getRegisteredPatients([userId])
     if (response.queryErr) {
         console.log(`patientLeads.service-js - getRegisteredPatients - ${response.queryErr}`)
         return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
@@ -92,8 +95,9 @@ const getLeadDetailsForFollowUp = async (reqQuery) => {
     }
 }
 
-const addLeadsFollowUp = async (reqBody) => {
-    const { leadId, followUpComment, nextFollowUpDate, createdBy } = reqBody;
+const addLeadsFollowUp = async (req) => {
+    const { leadId, followUpComment, nextFollowUpDate } = req.body;
+    const createdBy = req.user.id;
     const params = [leadId, followUpComment, nextFollowUpDate, createdBy]
     const response = await worker.addLeadsFollowUp(params)
     if (response.queryErr) {

@@ -10,7 +10,7 @@ const patientLeadsWorker = (() => {
     }
 
     const getRegisteredPatients = (params) => {
-        return commonWorker("CALL GetRegisteredPatients()", params, 'patientLeads.worker.js - getRegisteredPatients -')
+        return commonWorker("CALL GetRegisteredPatients(?)", params, 'patientLeads.worker.js - getRegisteredPatients -')
     }
 
     const getLeadsDetailsOptions = (params) => {

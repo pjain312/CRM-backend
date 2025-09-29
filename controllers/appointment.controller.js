@@ -21,7 +21,7 @@ const addAppointment = async (req, res) => {
             return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
         }
         else {
-            const response = await service.addAppointment(req.body)
+            const response = await service.addAppointment(req)
             return res.status(response.status).json(response.data)
         }
     }
@@ -33,7 +33,7 @@ const addAppointment = async (req, res) => {
 
 const getAllAppointments = async (req, res) => {
     try {
-            const response = await service.getAllAppointments(req.query)
+            const response = await service.getAllAppointments(req)
             return res.status(response.status).json(response.data)
         }
     catch (err) {
@@ -50,7 +50,7 @@ const updateAppointment = async (req, res) => {
             return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
         }
         else {
-            const response = await service.updateAppointment(req.body)
+            const response = await service.updateAppointment(req)
             return res.status(response.status).json(response.data)
         }
     }
@@ -62,7 +62,7 @@ const updateAppointment = async (req, res) => {
 
 const getPendingCounts = async (req, res) => {
     try {
-        const response = await service.getPendingCounts()
+        const response = await service.getPendingCounts(req)
         return res.status(response.status).json(response.data)
     }
     catch (err) {

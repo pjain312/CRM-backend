@@ -1,3 +1,5 @@
+const { validateJwt } = require("../middlewares/validateJwt");
+
 const patientLeadsRoutes = (function () {
   "use strict";
 
@@ -5,14 +7,15 @@ const patientLeadsRoutes = (function () {
     router = express.Router(),
     patientLeadsController = require("../controllers/patientLeads.controller");
 
-  router.route("/addPatientLeads").post(patientLeadsController.addPatientLeads);
-  router.route("/getPatientLeads").get(patientLeadsController.getPatientLeads);
-  router.route("/getLeadsDetailsOptions").get(patientLeadsController.getLeadsDetailsOptions);
-  router.route("/updatePatientLeads").post(patientLeadsController.updatePatientLeads);
-  router.route("/getRegisteredPatients").get(patientLeadsController.getRegisteredPatients);
-  router.route("/getLeadDetailsForFollowUp").get(patientLeadsController.getLeadDetailsForFollowUp);
-  router.route("/addLeadsFollowUp").post(patientLeadsController.addLeadsFollowUp);
-  router.route("/closePatient").post(patientLeadsController.closePatient);
+  router.route("/addPatientLeads").post(validateJwt, patientLeadsController.addPatientLeads);
+  router.route("/getPatientLeads").get(validateJwt, patientLeadsController.getPatientLeads);
+  router.route("/getLeadsDetailsOptions").get(validateJwt, patientLeadsController.getLeadsDetailsOptions);
+  router.route("/updatePatientLeads").post(validateJwt, patientLeadsController.updatePatientLeads);
+  router.route("/getRegisteredPatients").get(validateJwt,patientLeadsController.getRegisteredPatients);
+  router.route("/getLeadDetailsForFollowUp").get(validateJwt, patientLeadsController.getLeadDetailsForFollowUp);
+  router.route("/addLeadsFollowUp").post(validateJwt, patientLeadsController.addLeadsFollowUp);
+  router.route("/closePatient").post(validateJwt, patientLeadsController.closePatient);
+
 
   return router;
 })();
