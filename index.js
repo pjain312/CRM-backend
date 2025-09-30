@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express"),
   app = express(),
   router = require("./routes/index"),
@@ -24,6 +26,9 @@ app.use((req, res, next) => {
 router.init(app);
 initiatePassport();
 
-console.log(`PHYSIO CRM API Service running on :${9005}`);
+const PORT = process.env.PORT;
+const APP_NAME = process.env.APP_NAME || 'PHYSIO CRM API Service';
 
-app.listen(9005);
+console.log(`${APP_NAME} running on port: ${PORT}`);
+
+app.listen(PORT);

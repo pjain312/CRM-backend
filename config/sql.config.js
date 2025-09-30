@@ -1,13 +1,13 @@
 const mysql = require('mysql2');
 
 const dbConfig = {
-  host: 'crm-sql.cls4qkmyqyqw.ap-south-1.rds.amazonaws.com',
-  user: 'root',
-  password: 'crm-rds123',
-  database: 'crm-db',
+  host: process.env.DB_HOST ,
+  user: process.env.DB_USER ,
+  password: process.env.DB_PASSWORD ,
+  database: process.env.DB_NAME ,
   waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
+  connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT) ,
+  queueLimit: parseInt(process.env.DB_QUEUE_LIMIT),
   dateStrings: true,
 };
 

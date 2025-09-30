@@ -17,7 +17,8 @@ const validateJwt = (req, res, next) => {
             return res.status(401).json(getJsonResponse(false, [], "Access token required", null));
         }
 
-        const decoded = jwt.verify(token, "secret"); 
+        const secret = process.env.JWT_SECRET;
+        const decoded = jwt.verify(token, secret); 
         
         req.user = {
             id: decoded.id,

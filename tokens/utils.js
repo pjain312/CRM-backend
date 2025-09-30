@@ -3,15 +3,19 @@ const crypto = require("crypto");
 const { commonWorker } = require("../utils/common");
 
 function generateAccessToken(user) {
-  return jwt.sign({ id: user.Id, email: user.Email, name: user.Name }, "secret", 
-    { expiresIn: "2h" }
+  const secret = process.env.JWT_SECRET;
+  const expiresIn = process.env.JWT_ACCESS_TOKEN_EXPIRES_IN;
+  
+  return jwt.sign({ id: user.Id, email: user.Email, name: user.Name }, secret, 
+    { expiresIn: expiresIn }
   );
 }
 
 async function generateRefreshToken(user) {
     try {
         const token = crypto.randomBytes(64).toString("hex");
-        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7days
+        const refreshTokenExpiresDays = parseInt(process.env.JWT_REFRESH_TOKEN_EXPIRES_DAYS);
+        const expiresAt = new Date(Date.now() + refreshTokenExpiresDays * 24 * 60 * 60 * 1000);
         // const expiresAt = new Date(Date.now() + 2 * 60 * 1000); // 2 minutes from now
       
         const response = await commonWorker("INSERT INTO user_refresh_token (UserId, RefreshToken, ExpiresAt) VALUES (?, ?, ?)",
