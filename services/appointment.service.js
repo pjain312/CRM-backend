@@ -79,13 +79,24 @@ const appointmentsService = (() => {
         }
     }
 
+    const getAllTimeSlots = async (req) => {
+        const response = await worker.getAllTimeSlots()
+        if (response.queryErr) {
+            console.log(`appointment.service-js - getAllTimeSlots - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes[0] ? response.queryRes[0] : [], null, null) }
+        }
+    }
 
     return {
         getAppointmentDefaultOptions,
         addAppointment,
         getAllAppointments,
         updateAppointment,
-        getPendingCounts
+        getPendingCounts,
+        getAllTimeSlots
     }
 })();
 

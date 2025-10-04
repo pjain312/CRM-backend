@@ -21,13 +21,18 @@ const appointmentsWorker = (() => {
         return commonWorker("CALL GetPendingCounts(?)", params, 'appointment.worker.js - getPendingCounts -')
     }
 
+    const getAllTimeSlots = (params) => {
+        return commonWorker("CALL GetAllTimeSlots()", params, 'appointment.worker.js - getAllTimeSlots -')
+    }
+
 
     return { 
         getAppointmentDefaultOptions,
         addAppointment,
         getAllAppointments,
         updateAppointment,
-        getPendingCounts
+        getPendingCounts,
+        getAllTimeSlots
     }
 })();
 

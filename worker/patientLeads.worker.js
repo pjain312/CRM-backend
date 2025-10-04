@@ -2,7 +2,7 @@ const { commonWorker } = require("../utils/common")
 
 const patientLeadsWorker = (() => {
     const addPatientLeads = (params) => {
-        return commonWorker("CALL AddPatientLeads(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", params, 'patientLeads.worker.js - addPatientLeads -')
+        return commonWorker("CALL AddPatientLeads(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", params, 'patientLeads.worker.js - addPatientLeads -')
     }
 
     const getPatientLeads = (params) => {
