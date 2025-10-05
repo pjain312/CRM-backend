@@ -19,5 +19,8 @@
 
     const userRoutes = require("./user.routes");
     app.use("/user", userRoutes);
+
+    const patientsRoutes = require("./patients.route");
+    app.use("/patients", patientsRoutes);
   };
 })(module.exports);

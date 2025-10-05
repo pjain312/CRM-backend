@@ -34,7 +34,7 @@ const packageWorker = (() => {
     }
 
     const getPackageInvoiceData = (params) => {
-        return commonWorker("CALL GetPackageInvoiceData(?,?)", params, 'packages.worker.js - getPackageInvoiceData -')
+        return commonWorker("CALL GetPackageInvoiceData(?,?,?)", params, 'packages.worker.js - getPackageInvoiceData -')
     }
 
     const getDailyInvoiceData = (params) => {

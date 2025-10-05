@@ -129,8 +129,8 @@ const packagesController = (() => {
 
     const getPackageInvoiceData = async (req, res) => {
         try {
-            const { patientId, appointmentId } = req.query
-            if (!patientId || !appointmentId ) {
+            const { patientId } = req.query
+            if (!patientId ) {
                 return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
             }
             else {

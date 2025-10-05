@@ -10,7 +10,6 @@ const sessionRoutes = (function () {
     router.route("/checkInPatient").post(validateJwt, sessionController.checkInPatient);
     router.route("/startSession").put(validateJwt, sessionController.startSession);
     router.route("/endSession").put(validateJwt,sessionController.endSession);
-    router.route("/sessionCharges").put(validateJwt,sessionController.sessionCharges);
     router.route("/checkoutPatient").put(validateJwt,sessionController.checkoutPatient);
     router.route("/getPatientDetailsForCheckout").get(validateJwt,sessionController.getPatientDetailsForCheckout);
     router.route("/getAllPackagesAndSessionTypes").get(validateJwt,sessionController.getAllPackagesAndSessionTypes);

@@ -12,10 +12,6 @@ const endSession = (params) => {
     return commonWorker("CALL EndSession(?)", params, 'session.worker.js - endSession -')
 }
 
-const sessionCharges = (params) => {
-    return commonWorker("CALL SessionCharges(?,?,?)", params, 'session.worker.js - sessionCharges -')
-}
-
 const getPatientDetailsForCheckout = (params) => {
     return commonWorker("CALL GetPatientDetailsForCheckout(?)", params, 'session.worker.js - getPatientDetailsForCheckout -')
 }
@@ -32,7 +28,6 @@ module.exports = {
     checkInPatient,
     startSession,
     endSession,
-    sessionCharges,
     getPatientDetailsForCheckout,
     getAllPackagesAndSessionTypes,
     checkoutPatient

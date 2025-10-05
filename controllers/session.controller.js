@@ -56,24 +56,6 @@ const endSession = async (req, res) => {
     }
 }
 
-const sessionCharges = async (req, res) => {
-    try {
-        const { sessionId, amount, paymentMode } = req.body
-        if (!sessionId || !amount || !paymentMode ) {
-            console.log(`session.controller.js - sessionCharges - ${sessionId} and ${amount} and ${paymentMode} are required`)
-            return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
-        }
-        else {
-            const response = await service.sessionCharges(req.body)
-            return res.status(response.status).json(response.data)
-        }
-    }
-    catch (err) {
-        console.log(`session.controller.js - sessionCharges - ${err.message}`)
-        return res.status(500).json(getJsonResponse(false, [], null, err.message))
-    }
-}
-
 const checkoutPatient = async (req, res) => {
     try {
         const { sessionId } = req.body
@@ -126,7 +108,6 @@ module.exports = {
     checkInPatient,
     startSession,
     endSession,
-    sessionCharges,
     checkoutPatient,
     getPatientDetailsForCheckout,
     getAllPackagesAndSessionTypes

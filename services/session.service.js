@@ -44,20 +44,6 @@ const endSession = async (reqBody) => {
     }
 } 
 
-const sessionCharges = async (reqBody) => {
-    const { sessionId, amount, paymentMode } = reqBody;
-    const params = [sessionId, amount, paymentMode]
-    const response = await worker.sessionCharges(params)
-    if (response.queryErr) {
-        console.log(`session.service-js - sessionCharges - ${response.queryErr}`)
-        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
-    }
-
-    if (response.queryRes) {
-        return { status: 200, data: getJsonResponse(true, [], "Session charges submited successfully", null) }
-    }
-}
-
 const checkoutPatient = async (reqBody) => {
     const { sessionId, packageId, sessionCharges, paymentMode, selectedSessionTypes } = reqBody;
     const params = [sessionId, packageId, sessionCharges, paymentMode, selectedSessionTypes]
@@ -107,7 +93,6 @@ module.exports = {
     checkInPatient,
     startSession,
     endSession,
-    sessionCharges,
     checkoutPatient,
     getPatientDetailsForCheckout,
     getAllPackagesAndSessionTypes

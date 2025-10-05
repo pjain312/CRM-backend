@@ -135,8 +135,8 @@ const packageService = (() => {
     }
 
     const getPackageInvoiceData = async (reqQuery) => {
-         const { patientId, appointmentId } = reqQuery;
-        const response = await worker.getPackageInvoiceData([patientId, appointmentId])
+         const { patientId, appointmentId, paymentTransactionId } = reqQuery;
+        const response = await worker.getPackageInvoiceData([patientId, appointmentId, paymentTransactionId])
         if (response.queryErr) {
             console.log(`packages.service-js - getPackageInvoiceData - ${response.queryErr}`)
             return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
