@@ -119,6 +119,23 @@ const { getJsonResponse } = require("../utils/common")
         }
     }
 
+    const reopenPatient = async (req, res) => {
+        try {
+            const { patientId } = req.body
+            if (!patientId ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.reopenPatient(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`patientLeads.controller.js - reopenPatient - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
 module.exports = {
     addPatientLeads,
     getPatientLeads,
@@ -127,5 +144,6 @@ module.exports = {
     updatePatientLeads,
     getLeadDetailsForFollowUp,
     addLeadsFollowUp,
-    closePatient
+    closePatient,
+    reopenPatient
 }

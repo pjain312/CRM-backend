@@ -125,6 +125,20 @@ const closePatient = async (reqBody) => {
     }
 }
 
+const reopenPatient = async (reqBody) => {
+    const { patientId } = reqBody;
+    const params = [patientId]
+    const response = await worker.reopenPatient(params)
+    if (response.queryErr) {
+        console.log(`patientLeads.service-js - reopenPatient - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+    }
+
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, [], null, null) }
+    }
+}
+
 module.exports = {
     addPatientLeads,
     getPatientLeads,
@@ -133,5 +147,6 @@ module.exports = {
     updatePatientLeads,
     getLeadDetailsForFollowUp,
     addLeadsFollowUp,
-    closePatient
+    closePatient,
+    reopenPatient
 }

@@ -15,6 +15,7 @@ const patientLeadsRoutes = (function () {
   router.route("/getLeadDetailsForFollowUp").get(validateJwt, patientLeadsController.getLeadDetailsForFollowUp);
   router.route("/addLeadsFollowUp").post(validateJwt, patientLeadsController.addLeadsFollowUp);
   router.route("/closePatient").post(validateJwt, patientLeadsController.closePatient);
+  router.route("/reopenPatient").post(validateJwt, patientLeadsController.reopenPatient);
 
 
   return router;
