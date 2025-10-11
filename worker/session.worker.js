@@ -24,11 +24,16 @@ const checkoutPatient = (params) => {
     return commonWorker("CALL CheckoutPatient(?,?,?,?,?)", params, 'session.worker.js - checkoutPatient -')
 }
 
+const undoCheckin = (params) => {
+    return commonWorker("CALL UndoCheckin(?)", params, 'session.worker.js - undoCheckin -')
+}
+
 module.exports = {
     checkInPatient,
     startSession,
     endSession,
     getPatientDetailsForCheckout,
     getAllPackagesAndSessionTypes,
-    checkoutPatient
+    checkoutPatient,
+    undoCheckin
 }

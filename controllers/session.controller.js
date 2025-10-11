@@ -103,6 +103,24 @@ const getAllPackagesAndSessionTypes = async (req, res) => {
     }
 }
 
+const undoCheckin = async (req, res) => {
+    try {
+        const { sessionId } = req.body
+        if (!sessionId) {
+            console.log(`session.controller.js - undoCheckin - ${sessionId} is required`)
+            return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+        }
+        else {
+            const response = await service.undoCheckin(req.body)
+            return res.status(response.status).json(response.data)
+        }
+    }
+    catch (err) {
+        console.log(`session.controller.js - undoCheckin - ${err.message}`)
+        return res.status(500).json(getJsonResponse(false, [], null, err.message))
+    }
+}
+
 
 module.exports = {
     checkInPatient,
@@ -110,5 +128,6 @@ module.exports = {
     endSession,
     checkoutPatient,
     getPatientDetailsForCheckout,
-    getAllPackagesAndSessionTypes
+    getAllPackagesAndSessionTypes,
+    undoCheckin
 }

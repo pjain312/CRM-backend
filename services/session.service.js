@@ -89,11 +89,25 @@ const getAllPackagesAndSessionTypes = async () => {
     }
 }
 
+const undoCheckin = async (reqBody) => {
+    const { sessionId } = reqBody;
+    const response = await worker.undoCheckin([sessionId])
+    if (response.queryErr) {
+        console.log(`session.service-js - undoCheckin - ${response.queryErr}`)
+        return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+    }
+
+    if (response.queryRes) {
+        return { status: 200, data: getJsonResponse(true, response.queryRes, null , null) }
+    }
+}
+
 module.exports = {
     checkInPatient,
     startSession,
     endSession,
     checkoutPatient,
     getPatientDetailsForCheckout,
-    getAllPackagesAndSessionTypes
+    getAllPackagesAndSessionTypes,
+    undoCheckin
 }

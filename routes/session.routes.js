@@ -11,6 +11,7 @@ const sessionRoutes = (function () {
     router.route("/startSession").put(validateJwt, sessionController.startSession);
     router.route("/endSession").put(validateJwt,sessionController.endSession);
     router.route("/checkoutPatient").put(validateJwt,sessionController.checkoutPatient);
+    router.route("/undoCheckin").post(validateJwt,sessionController.undoCheckin);
     router.route("/getPatientDetailsForCheckout").get(validateJwt,sessionController.getPatientDetailsForCheckout);
     router.route("/getAllPackagesAndSessionTypes").get(validateJwt,sessionController.getAllPackagesAndSessionTypes);
 

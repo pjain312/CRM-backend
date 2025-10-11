@@ -59,8 +59,8 @@ const getPatientPackages = async (req) => {
 }
 
 const payPackageDues = async (req) => {
-    const { patientId, packageId, paymentMode, sessionCharges} = req.body;
-    const params = [patientId, packageId, paymentMode, sessionCharges]
+    const { patientId, patientPackageId, paymentMode, sessionCharges} = req.body;
+    const params = [patientId, patientPackageId, paymentMode, sessionCharges]
     const response = await worker.payPackageDues(params)
     if (response.queryErr) {
         console.log(`patients.service-js - payPackageDues - ${response.queryErr}`)

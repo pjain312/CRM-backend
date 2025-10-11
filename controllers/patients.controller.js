@@ -71,8 +71,8 @@ const { getJsonResponse } = require("../utils/common")
 
     const payPackageDues = async (req, res) => {
         try {
-            const { patientId, packageId, paymentMode, sessionCharges  } = req.body
-            if (!patientId || !packageId || !paymentMode || !sessionCharges) {
+            const { patientId, patientPackageId, paymentMode, sessionCharges  } = req.body
+            if (!patientId || !patientPackageId || !paymentMode || !sessionCharges) {
                 return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
             }
             else {
