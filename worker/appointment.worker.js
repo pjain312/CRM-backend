@@ -14,7 +14,7 @@ const appointmentsWorker = (() => {
     }
 
     const updateAppointment = (params) => {
-        return commonWorker("CALL UpdateAppointment(?,?,?,?,?,?)", params, 'appointment.worker.js - updateAppointment -')
+        return commonWorker("CALL UpdateAppointment(?,?,?,?,?,?,?)", params, 'appointment.worker.js - updateAppointment -')
     }
 
     const getPendingCounts = (params) => {

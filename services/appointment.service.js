@@ -50,9 +50,9 @@ const appointmentsService = (() => {
     }
 
     const updateAppointment = async (req) => {
-        const { appointmentId, comments, status, appointmentTime, appointmentDate } = req.body;
+        const { appointmentId, comments, status, appointmentTime, appointmentDate, physio } = req.body;
         const updatedBy = req.user.id;
-        const params = [appointmentId, comments, status, appointmentTime, appointmentDate, updatedBy]
+        const params = [appointmentId, comments, status, appointmentTime, appointmentDate, physio, updatedBy]
         const response = await worker.updateAppointment(params)
         if (response.queryErr) {
             console.log(`appointment.service-js - updateAppointment - ${response.queryErr}`)
