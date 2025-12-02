@@ -37,8 +37,8 @@ const updatePatientLeads = async (req) => {
 }
 
 const getPatientLeads = async (reqQuery) => {
-    const {date} = reqQuery
-    const response = await worker.getPatientLeads([date])
+    const {date, isFollowUpPending} = reqQuery
+    const response = await worker.getPatientLeads([date, isFollowUpPending])
     if (response.queryErr) {
         console.log(`patientLeads.service-js - getPatientLeads - ${response.queryErr}`)
         return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
