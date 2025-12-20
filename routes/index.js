@@ -22,5 +22,9 @@
 
     const patientsRoutes = require("./patients.route");
     app.use("/patients", patientsRoutes);
+
+    const paymentRoutes = require("./payments.routes");
+    app.use("/payments", paymentRoutes);
+
   };
 })(module.exports);
