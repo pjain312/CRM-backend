@@ -71,6 +71,17 @@ const getPendingCounts = async (req, res) => {
     }
 }
 
+const getPendingFollowupPatients = async (req, res) => {
+    try {
+        const response = await service.getPendingFollowupPatients(req)
+        return res.status(response.status).json(response.data)
+    }
+    catch (err) {
+        console.log(`appointment.controller.js - getPendingFollowupPatients - ${err.message}`)
+        return res.status(500).json(getJsonResponse(false, [], null, err.message))
+    }
+}
+
 const getAllTimeSlots = async (req, res) => {
     try {
         const response = await service.getAllTimeSlots(req)
@@ -88,5 +99,6 @@ module.exports = {
     getAllAppointments,
     updateAppointment,
     getPendingCounts,
+    getPendingFollowupPatients,
     getAllTimeSlots
 }

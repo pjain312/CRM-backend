@@ -21,6 +21,10 @@ const appointmentsWorker = (() => {
         return commonWorker("CALL GetPendingCounts(?)", params, 'appointment.worker.js - getPendingCounts -')
     }
 
+    const getPendingFollowupPatients = (params) => {
+        return commonWorker("CALL GetPendingFollowupPatients(?)", params, 'appointment.worker.js - getPendingFollowupPatients -')
+    }
+
     const getAllTimeSlots = (params) => {
         return commonWorker("CALL GetAllTimeSlots()", params, 'appointment.worker.js - getAllTimeSlots -')
     }
@@ -32,6 +36,7 @@ const appointmentsWorker = (() => {
         getAllAppointments,
         updateAppointment,
         getPendingCounts,
+        getPendingFollowupPatients,
         getAllTimeSlots
     }
 })();

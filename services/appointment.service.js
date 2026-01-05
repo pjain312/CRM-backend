@@ -79,6 +79,18 @@ const appointmentsService = (() => {
         }
     }
 
+    const getPendingFollowupPatients = async (req) => {
+        const userId = req.user.id
+        const response = await worker.getPendingFollowupPatients([userId])
+        if (response.queryErr) {
+            console.log(`appointment.service-js - getPendingFollowupPatients - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes[0], null, null) }
+        }
+    }
+
     const getAllTimeSlots = async (req) => {
         const response = await worker.getAllTimeSlots()
         if (response.queryErr) {
@@ -96,6 +108,7 @@ const appointmentsService = (() => {
         getAllAppointments,
         updateAppointment,
         getPendingCounts,
+        getPendingFollowupPatients,
         getAllTimeSlots
     }
 })();
