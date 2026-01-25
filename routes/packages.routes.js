@@ -17,6 +17,7 @@ const patientLeadsRoutes = (function () {
     router.route("/getSessionTypes").get(validateJwt, controller.getSessionTypes);
     router.route("/getPackageInvoiceData").get(validateJwt, controller.getPackageInvoiceData);
     router.route("/getDailyInvoiceData").get(validateJwt, controller.getDailyInvoiceData);
+    router.route("/getProductInvoiceData").get(validateJwt, controller.getProductInvoiceData);
   
     return router;
   })();

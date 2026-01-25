@@ -5,8 +5,8 @@ const packageService = (() => {
     const { getJsonResponse } = require("../utils/common");
 
     const addPackages = async (reqBody) => {
-        const { packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost } = reqBody;
-        const params = [packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost]
+        const { packageName, chargePerSession, chargePerSessionForPackage, totalSession, freeSessions, totalCost } = reqBody;
+        const params = [packageName, chargePerSession, chargePerSessionForPackage, totalSession, freeSessions, totalCost]
         const response = await worker.addPackages(params)
         if (response.queryErr) {
             console.log(`packages.service-js - addPackages - ${response.queryErr}`)
@@ -39,8 +39,8 @@ const packageService = (() => {
     }
 
     const updatePackage = async (reqBody) => {
-        const { packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost } = reqBody;
-        const params = [packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, totalCost]
+        const { packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, freeSessions, totalCost } = reqBody;
+        const params = [packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, freeSessions, totalCost]
         const response = await worker.updatePackage(params)
         if (response.queryErr) {
             console.log(`packages.service-js - updatePackage - ${response.queryErr}`)
@@ -142,7 +142,11 @@ const packageService = (() => {
             return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
         }
         if (response.queryRes) {
-            return { status: 200, data: getJsonResponse(true, response.queryRes[0] && response.queryRes[0][0] ? response.queryRes[0][0] : {}, null, null) }
+            const res = {
+                details: response.queryRes[0] && response.queryRes[0][0] ? response.queryRes[0][0] : {},
+                services: response.queryRes[1] ? response.queryRes[1] : [],
+            }
+            return { status: 200, data: getJsonResponse(true, res, null, null) }
         }
         else {
             return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
@@ -168,6 +172,26 @@ const packageService = (() => {
        }
    }
 
+    const getProductInvoiceData = async (reqQuery) => {
+        const { patientId, productId } = reqQuery;
+        console.log(productId)
+       const response = await worker.getProductInvoiceData([patientId, productId])
+       if (response.queryErr) {
+           console.log(`packages.service-js - getProductInvoiceData - ${response.queryErr}`)
+           return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+       }
+       if (response.queryRes) {
+        const res = {
+            details: response.queryRes[0] && response.queryRes[0][0] ? response.queryRes[0][0] : {},
+            products: response.queryRes[1] ? response.queryRes[1] : [],
+        }
+        return { status: 200, data: getJsonResponse(true, res, null, null) }
+    }
+       else {
+           return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+       }
+   }
+
     return {
         addPackages,
         addSessionTypes,
@@ -178,7 +202,8 @@ const packageService = (() => {
         getSessionTypes,
         deleteSessionType,
         getPackageInvoiceData,
-        getDailyInvoiceData
+        getDailyInvoiceData,
+        getProductInvoiceData
     }
 })();
 

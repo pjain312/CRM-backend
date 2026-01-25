@@ -160,6 +160,23 @@ const packagesController = (() => {
             return res.status(500).json(getJsonResponse(false, [], null, err.message))
         }
     }
+    
+    const getProductInvoiceData = async (req, res) => {
+        try {
+            const { patientId, productId } = req.query
+            if (!patientId || !productId ) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.getProductInvoiceData(req.query)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`packages.controller.js - getProductInvoiceData - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
 
     return {
         addPackages,
@@ -171,7 +188,8 @@ const packagesController = (() => {
         getSessionTypes,
         deleteSessionType,
         getPackageInvoiceData,
-        getDailyInvoiceData
+        getDailyInvoiceData,
+        getProductInvoiceData
     }
 })()
 
