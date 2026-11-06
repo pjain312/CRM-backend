@@ -44,6 +44,10 @@ const packageWorker = (() => {
     const getProductInvoiceData = (params) => {
         return commonWorker("CALL GetProductInvoiceData(?,?)", params, 'packages.worker.js - getProductInvoiceData -')
     }
+
+    const addAdvancePatientPackage = (params) =>{
+        return commonWorker("CALL AddAdvancePatientPackage(?,?,?,?)", params, 'packages.worker.js - getProductInvoiceData -')
+    }
     return { 
         addPackages,
         addSessionTypes,
@@ -55,7 +59,8 @@ const packageWorker = (() => {
         getSessionTypes,
         getPackageInvoiceData,
         getDailyInvoiceData,
-        getProductInvoiceData
+        getProductInvoiceData,
+        addAdvancePatientPackage
     }
 })();
 

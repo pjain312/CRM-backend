@@ -37,6 +37,23 @@ const packagesController = (() => {
         }
     }
 
+    const addAdvancePatientPackage = async (req, res) => {
+        try {
+            const { patientId, packageId, paymentMode, amount } = req.body
+            if (!patientId || !packageId || !paymentMode || !amount) {
+                return res.status(400).json(getJsonResponse(false, [], "invalid request", null))
+            }
+            else {
+                const response = await service.addAdvancePatientPackage(req.body)
+                return res.status(response.status).json(response.data)
+            }
+        }
+        catch (err) {
+            console.log(`packages.controller.js - addAdvancePatientPackage - ${err.message}`)
+            return res.status(500).json(getJsonResponse(false, [], null, err.message))
+        }
+    }
+
     const updatePackage = async (req, res) => {
         try {
             const { packageId } = req.body
@@ -181,6 +198,7 @@ const packagesController = (() => {
     return {
         addPackages,
         addSessionTypes,
+        addAdvancePatientPackage,
         updatePackage,
         updateSessionType,
         deletePackage,

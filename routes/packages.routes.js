@@ -9,6 +9,7 @@ const patientLeadsRoutes = (function () {
   
     router.route("/addPackage").post(validateJwt, controller.addPackages);
     router.route("/addSessionTypes").post(validateJwt, controller.addSessionTypes);
+    router.route("/addAdvancePatientPackage").post(validateJwt, controller.addAdvancePatientPackage);
     router.route("/updatePackage").put(validateJwt, controller.updatePackage);
     router.route("/updateSessionType").put(validateJwt, controller.updateSessionType);
     router.route("/deletePackage").delete(validateJwt, controller.deletePackage);

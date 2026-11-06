@@ -38,6 +38,23 @@ const packageService = (() => {
         }
     }
 
+    const addAdvancePatientPackage = async (reqBody) => {
+        const { patientId, packageId, paymentMode, amount } = reqBody;
+        const params = [patientId, packageId, paymentMode, amount]
+        const response = await worker.addAdvancePatientPackage(params)
+        if (response.queryErr) {
+            console.log(`packages.service-js - addAdvancePatientPackage - ${response.queryErr}`)
+            return { status: 500, data: getJsonResponse(false, [], "Internal Server Error", null) }
+        }
+
+        if (response.queryRes) {
+            return { status: 200, data: getJsonResponse(true, response.queryRes, null, null) }
+        }
+        else {
+            return { status: 500, data: getJsonResponse(false, [], "No Records", null) }
+        }
+    }
+
     const updatePackage = async (reqBody) => {
         const { packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, freeSessions, totalCost } = reqBody;
         const params = [packageId, packageName, chargePerSession, chargePerSessionForPackage, totalSession, freeSessions, totalCost]
@@ -174,7 +191,6 @@ const packageService = (() => {
 
     const getProductInvoiceData = async (reqQuery) => {
         const { patientId, productId } = reqQuery;
-        console.log(productId)
        const response = await worker.getProductInvoiceData([patientId, productId])
        if (response.queryErr) {
            console.log(`packages.service-js - getProductInvoiceData - ${response.queryErr}`)
@@ -195,6 +211,7 @@ const packageService = (() => {
     return {
         addPackages,
         addSessionTypes,
+        addAdvancePatientPackage,
         updatePackage,
         updateSessionType,
         deletePackage,
